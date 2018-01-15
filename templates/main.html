@@ -1,0 +1,13 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <title>首页</title>
+</head>
+<body>
+<h1 align="center">首页</h1>
+{% for m in modules %}
+    <div><a href="{{ m.mUrl }}">{{ m.mName}}</a><div>
+{% endfor %}
+</body>
+</html>

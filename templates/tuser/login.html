@@ -1,0 +1,49 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <title>登录</title>
+    <!-- 新 Bootstrap 核心 CSS 文件 -->
+<link href="https://cdn.bootcss.com/bootstrap/3.3.7/css/bootstrap.min.css" rel="stylesheet">
+
+<!-- 可选的Bootstrap主题文件（一般不使用） -->
+<script src="https://cdn.bootcss.com/bootstrap/3.3.7/css/bootstrap-theme.min.css"></script>
+
+<!-- jQuery文件。务必在bootstrap.min.js 之前引入 -->
+<script src="https://cdn.bootcss.com/jquery/2.1.1/jquery.min.js"></script>
+
+<!-- 最新的 Bootstrap 核心 JavaScript 文件 -->
+<script src="https://cdn.bootcss.com/bootstrap/3.3.7/js/bootstrap.min.js"></script>
+</head>
+<body>
+<div class="page-header">
+<h1 align="center">登录</h1>
+</div>
+<form class="form-horizontal" role="form" action="login" method="post">
+{% csrf_token %}
+    <!---用户名-->
+<div class="form-group">
+<label class="col-sm-4 control-label">用户名:</label>
+<div class="col-sm-4"><input class="form-control" placeholder="请输入用户名" type="text" name="username"/></div>
+</div>
+</div>
+    <!---密码:-->
+<div class="form-group">
+<label class="col-sm-4 control-label">密码:</label>
+<div class="col-sm-4"><input class="form-control" placeholder="请输入密码" type="password" name="password"/></div>
+</div>
+<div class="col-sm-4">
+</div>
+<div class="col-sm-4">
+       <input class="btn btn-info"  type="submit" value="登录"/>
+    <input class="btn btn-info"  type="reset" value="重置"/>
+</div>
+
+
+
+</form>
+
+
+</body>
+
+</html>

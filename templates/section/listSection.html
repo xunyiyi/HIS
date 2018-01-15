@@ -1,0 +1,100 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <title>科室管理</title>
+        <!-- 新 Bootstrap 核心 CSS 文件 -->
+<link href="https://cdn.bootcss.com/bootstrap/3.3.7/css/bootstrap.min.css" rel="stylesheet">
+
+<!-- 可选的Bootstrap主题文件（一般不使用） -->
+<script src="https://cdn.bootcss.com/bootstrap/3.3.7/css/bootstrap-theme.min.css"></script>
+
+<!-- jQuery文件。务必在bootstrap.min.js 之前引入 -->
+<script src="https://cdn.bootcss.com/jquery/2.1.1/jquery.min.js"></script>
+
+<!-- 最新的 Bootstrap 核心 JavaScript 文件 -->
+<script src="https://cdn.bootcss.com/bootstrap/3.3.7/js/bootstrap.min.js"></script>
+</head>
+<body>
+<div class="page-header">
+    <h1 align="center">科室管理</h1>
+</div>
+<!--表单输入查询条件-->
+<form action="listSectionByPager" method="get">
+<div class="from-group">
+    <label class="col-sm-1">科室名称：</label>
+    <div class="col-sm-3"><input id="s" value="{{ secName }}" type="text" name="secName" class="form-contrl" /></div>
+    <div class="col-sm-1"><input type="submit" value="查询" class="btn btn-info" /></div>
+</div>
+
+</form>
+
+<br/>
+<br/><br/><br/>
+
+<table border="1" class="table">
+<tr>
+        <td>编号</td>
+        <td>科室的编号</td>
+        <td>科室的名称</td>
+        <td>删除</td>
+        <td>修改</td>
+    </tr>
+{% for sec in sections %}
+    <tr>
+        <td>{{ sec.id}}</td>
+        <td>{{ sec.secId}}</td>
+        <td>{{ sec.secName}}</td>
+     <td><input class="btn btn-info" type="button" value="删除" onclick="del({{ sec.id }})"/></td>
+    <td><input class="btn btn-info" type="button" value="修改" onclick="update({{ sec.id }})"/></td>
+    </tr>
+{% endfor %}
+</table>
+
+
+
+<!--展示页面-->
+<ul class="pagination pagination-lg">
+    {% if sections.has_previous %}
+            <li onclick="fun2({{ sections.previous_page_number}})"><a>&laquo;</a></li>
+        {% else %}
+            <li class="disabled"><a>&laquo;</a></li>
+    {% endif %}
+
+    {% for p in pager.page_range %}
+        {%ifequal cp p%}
+            <li class="active"  onclick="fun2({{ p }})"><a>{{ p }}</a></li>
+            {% else %}
+            <li  onclick="fun2({{ p }})"><a>{{ p }}</a></li>
+        {% endifequal %}
+    {% endfor %}
+    {% if sections.has_next %}
+                <li onclick="fun2({{ sections.next_page_number }})"><a>&raquo;</a></li>
+        {% else %}
+        <li class="disabled"><a>&raquo;</a></li>
+    {% endif %}
+
+
+</ul>
+
+
+
+<script type="text/javascript">
+function del(id){
+    b=window.confirm("确认要删除吗？")
+    if(b==true){
+     location.href="delSection?id="+id
+    }
+}
+function update(id){
+     location.href="delSection?id="+id
+}
+
+function fun2(p){
+    sex=$("#s").val()
+    location.href="listSectionByPager?currentPage="+p+"&secName="+sex
+}
+</script>
+
+</body>
+</html>

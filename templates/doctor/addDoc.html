@@ -1,0 +1,153 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <title>添加医生</title>
+    <!-- 新 Bootstrap 核心 CSS 文件 -->
+<link href="https://cdn.bootcss.com/bootstrap/3.3.7/css/bootstrap.min.css" rel="stylesheet">
+
+<!-- 可选的Bootstrap主题文件（一般不使用） -->
+<script src="https://cdn.bootcss.com/bootstrap/3.3.7/css/bootstrap-theme.min.css"></script>
+
+<!-- jQuery文件。务必在bootstrap.min.js 之前引入 -->
+<script src="https://cdn.bootcss.com/jquery/2.1.1/jquery.min.js"></script>
+
+<!-- 最新的 Bootstrap 核心 JavaScript 文件 -->
+<script src="https://cdn.bootcss.com/bootstrap/3.3.7/js/bootstrap.min.js"></script>
+<script src="static/js/csrf.js"></script>
+</head>
+<body>
+
+<div class="page-header">
+<h1 align="center">添加医生</h1>
+</div>
+<form class="form-horizontal" role="form" action="addDoc" method="post">
+    {% csrf_token %}
+
+    <!---姓名-->
+<div class="form-group">
+<label class="col-sm-4 control-label">姓名:</label>
+<div class="col-sm-4"><input onblur="checkName(this.value)" class="form-control" placeholder="请输入医生的姓名" type="text" name="dname"/></div>
+<div class="col-sm-4" id="msg"></div>
+
+</div>
+    <!---证件类型-->
+<div class="form-group">
+<label class="col-sm-4 control-label">证件类型:</label>
+<div class="col-sm-4">
+    <select name="papersType" class="form-control">
+        <option value="1">身份证</option>
+        <option value="2">军官证</option>
+        <option value="3">驾照</option>
+    </select>
+
+</div>
+</div>
+    <!---证件号:-->
+<div class="form-group">
+<label class="col-sm-4 control-label">证件号:</label>
+<div class="col-sm-4"><input class="form-control" placeholder="请输入有效证件号" type="text" name="papersNum"/></div>
+</div>
+    <!---电话号:-->
+<div class="form-group">
+<label class="col-sm-4 control-label">电话号:</label>
+<div class="col-sm-4"><input class="form-control" placeholder="请输入11位手机号" type="text" name="phone"/></div>
+</div>    <!---座机号-->
+<div class="form-group">
+<label class="col-sm-4 control-label">座机号:</label>
+<div class="col-sm-4"><input class="form-control" placeholder="请输入座机号" type="text" name="telephone"/></div>
+</div>    <!---性别-->
+<div class="form-group">
+<label class="col-sm-4 control-label">性别:</label>
+<div class="col-sm-4">
+    <div class="radio-inline">
+    <input name="sex" type="radio" value="0" />
+        <img src="static/images/nansheng.gif"/>
+    </div>
+    <div class="radio-inline">
+    <input name="sex" type="radio" value="1"/>
+        <img src="static/images/nvsheng.gif"/>
+</div>
+</div>
+</div>
+    <!---年龄-->
+<div class="form-group">
+<label class="col-sm-4 control-label">年龄:</label>
+<div class="col-sm-4"><input class="form-control" placeholder="请输入年龄" type="text" name="age"/></div>
+</div>
+    <!---生日-->
+<div class="form-group">
+<label class="col-sm-4 control-label">生日:</label>
+<div class="col-sm-4"><input class="form-control"  type="date" name="birthday"/></div>
+</div>
+    <!---邮箱-->
+<div class="form-group">
+<label class="col-sm-4 control-label">邮箱:</label>
+<div class="col-sm-4"><input class="form-control" placeholder="请输入合法的电子" type="email" name="email"/></div>
+</div>
+        <!---所在科室-->
+<div class="form-group">
+<label class="col-sm-4 control-label">所在科室:</label>
+<div class="col-sm-4">
+    <select name="sectionId" class="form-control">
+        {% for section in sections %}
+                <option value="{{ section.id }}">{{ section.secName }}</option>
+        {% endfor %}
+    </select>
+</div>
+</div>
+    <!---学历-->
+<div class="form-group">
+<label class="col-sm-4 control-label">学历:</label>
+<div class="col-sm-4">
+    <select name="degree" class="form-control">
+        <option value="1">博士</option>
+        <option value="2">研究生</option>
+        <option value="3">本科</option>
+        <option value="4">大专</option>
+    </select>
+</div>
+</div>
+        <!---入职时间-->
+<div class="form-group">
+<label class="col-sm-4 control-label">入职时间:</label>
+<div class="col-sm-4"><input class="form-control"  type="date" name="hireDate"/></div>
+</div>
+
+    <!---备注-->
+<div class="form-group">
+<label class="col-sm-4 control-label">备注:</label>
+<div class="col-sm-4">
+    <textarea name="remark" class="form-control" cols="5" rows="3"></textarea>
+</div>
+</div>
+    <!---提交按钮-->
+<div class="form-group">
+<label class="col-sm-4 control-label">
+
+</label>
+<div class="col-sm-4">
+   <input class="btn btn-info"  type="submit" value="添加医生"/>
+    <input class="btn btn-info"  type="reset" value="重置"/>
+</div>
+</div>
+
+
+</form>
+
+<script type="text/javascript">
+    function checkName(v) {
+        //验证医生姓名是否存在
+        //url:findDocByDname
+        $.ajax({
+            'type':'post',
+            'url':'findDocByDname',
+            'data':'dname='+v,
+            'success':function(msg){
+                $("#msg").html(msg)
+            }
+        })
+    }
+</script>
+</body>
+</html>

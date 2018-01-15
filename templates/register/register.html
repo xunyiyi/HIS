@@ -1,0 +1,221 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+
+    <title>挂号管理</title>
+    <!-- 新 Bootstrap 核心 CSS 文件 -->
+<link href="https://cdn.bootcss.com/bootstrap/3.3.7/css/bootstrap.min.css" rel="stylesheet">
+
+<!-- 可选的Bootstrap主题文件（一般不使用） -->
+<script src="https://cdn.bootcss.com/bootstrap/3.3.7/css/bootstrap-theme.min.css"></script>
+
+<!-- jQuery文件。务必在bootstrap.min.js 之前引入 -->
+<script src="https://cdn.bootcss.com/jquery/2.1.1/jquery.min.js"></script>
+
+<!-- 最新的 Bootstrap 核心 JavaScript 文件 -->
+<script src="https://cdn.bootcss.com/bootstrap/3.3.7/js/bootstrap.min.js"></script>
+</head>
+<body>
+
+<div class="page-header">
+<h1 align="center">挂号管理</h1>
+</div>
+<form class="form-horizontal" role="form" action="addDoc" method="post">
+    {% csrf_token %}
+
+    <!---姓名-->
+<div class="form-group">
+<label class="col-sm-4 control-label">姓名:</label>
+<div class="col-sm-4"><input class="form-control" placeholder="请输入病人的姓名" type="text" name="name"/></div>
+</div>
+    <!---证件类型-->
+<div class="form-group">
+<label class="col-sm-4 control-label">证件类型:</label>
+<div class="col-sm-4">
+    <select name="papersType" class="form-control">
+        <option value="1">身份证</option>
+        <option value="2">军官证</option>
+        <option value="3">驾照</option>
+    </select>
+
+</div>
+</div>
+    <!---证件号:-->
+<div class="form-group">
+<label class="col-sm-4 control-label">证件号:</label>
+<div class="col-sm-4"><input class="form-control" placeholder="请输入有效证件号" type="text" name="papersNum"/></div>
+</div>
+    <!---社保号:-->
+<div class="form-group">
+<label class="col-sm-4 control-label">社保号:</label>
+<div class="col-sm-4"><input class="form-control" placeholder="请输入社保号" type="text" name="SocialSecurityNumber"/></div>
+</div>
+
+    <!---挂号费-->
+<div class="form-group">
+<label class="col-sm-4 control-label">挂号费:</label>
+<div class="col-sm-4"><input class="form-control" placeholder="挂号费" type="text" name="price"/>元</div>
+</div>
+    <!---联系电话:-->
+<div class="form-group">
+<label class="col-sm-4 control-label">联系电话:</label>
+<div class="col-sm-4"><input class="form-control" placeholder="请输入联系电话" type="text" name="phone"/></div>
+</div>
+
+</div>
+
+<!---是否自费-->
+<div class="form-group">
+<label class="col-sm-4 control-label">是否自费:</label>
+<div class="col-sm-4">
+    <div class="radio-inline">
+    <input name="" type="radio" value="0" />是
+    </div>
+    <div class="radio-inline">
+    <input name="" type="radio" value="1"/>否
+</div>
+</div>
+</div>
+
+    <!---性别-->
+<div class="form-group">
+<label class="col-sm-4 control-label">性别:</label>
+<div class="col-sm-4">
+    <div class="radio-inline">
+    <input name="sex" type="radio" value="0" />
+        <img src="static/images/nansheng.gif"/>
+    </div>
+    <div class="radio-inline">
+    <input name="sex" type="radio" value="1"/>
+        <img src="static/images/nvsheng.gif"/>
+</div>
+</div>
+</div>
+    <!---年龄-->
+<div class="form-group">
+<label class="col-sm-4 control-label">年龄:</label>
+<div class="col-sm-4"><input class="form-control" placeholder="请输入年龄" type="text" name="age"/></div>
+</div>
+    <!---职业-->
+<div class="form-group">
+<label class="col-sm-4 control-label">职业:</label>
+<div class="col-sm-4"><input class="form-control"  type="text" name="job"/></div>
+</div>
+<!---初诊还是复诊-->
+<div class="form-group">
+<label class="col-sm-4 control-label">初复诊:</label>
+<div class="col-sm-4">
+    <div class="radio-inline">
+    <input name="" type="radio" value="0" />初诊
+    </div>
+    <div class="radio-inline">
+    <input name="" type="radio" value="1"/>复诊
+</div>
+</div>
+</div>
+        <!---所挂科室-->
+<div class="form-group">
+<label class="col-sm-4 control-label">所挂科室:</label>
+<div class="col-sm-4">
+    <select onchange="fun1(this.value)" name="sectionId" class="form-control">
+        {% for section in secs %}
+                <option value="{{ section.id }}">{{ section.secName }}</option>
+        {% endfor %}
+    </select>
+</div>
+</div>
+        <!---制定医生-->
+<div class="form-group">
+<label class="col-sm-4 control-label">所选医生:</label>
+<div class="col-sm-4">
+<select class="form-control">
+    {% for doc in docs %}
+            <option value="{{ doc.id }}">{{ doc.dname }}</option>
+    {% endfor %}
+
+</select>
+</div>
+</div>
+
+
+    <!---学历-->
+<div class="form-group">
+<label class="col-sm-4 control-label">学历:</label>
+<div class="col-sm-4">
+    <select name="degree" class="form-control">
+        <option value="1">博士</option>
+        <option value="2">研究生</option>
+        <option value="3">本科</option>
+        <option value="4">大专</option>
+    </select>
+</div>
+</div>
+        <!---入职时间-->
+<div class="form-group">
+<label class="col-sm-4 control-label">入职时间:</label>
+<div class="col-sm-4"><input class="form-control"  type="date" name="hireDate"/></div>
+</div>
+
+    <!---备注-->
+<div class="form-group">
+<label class="col-sm-4 control-label">备注:</label>
+<div class="col-sm-4">
+    <textarea name="remark" class="form-control" cols="5" rows="3"></textarea>
+</div>
+</div>
+    <!---提交按钮-->
+<div class="form-group">
+<label class="col-sm-4 control-label">
+
+</label>
+<div class="col-sm-4">
+   <input class="btn btn-info"  type="submit" value="添加医生"/>
+    <input class="btn btn-info"  type="reset" value="重置"/>
+</div>
+</div>
+</form>
+
+
+<script type="text/javascript">
+    function  fun1(v) {
+        //alert(v)
+       //同步请求
+        //location.href="findDocsBySec?id="+v
+       //异步请求服务器
+        var xhr
+        try{
+             xhr=new XMLHttpRequest()
+        }catch(e){
+            try{
+                xhr=new ActiveXObject("Msxml2.XMLHTTP");
+            }catch (e){
+                xhr=new ActiveXObject("Microsoft.XMLHTTP");
+            }
+        }
+        //1.请求url：findDocsBySec
+        //2.请求方式GET,POST：GET
+        //3.传参数:科室的编号
+        //4.检测客户端和服务器通讯的状态吗
+        xhr.onreadystatechange=function(){
+            if(xhr.readyState==4&xhr.status==200){
+                result=xhr.responseText
+                document.write(result)
+            }
+        }
+        document.write(document.cookie)
+        //建立客户端和服务器的链接
+        xhr.open("POST","findDocsBySec")
+        xhr.setRequestHeader("Content-Type","application/x-www-form-urlencoded")
+        xhr.setRequestHeader("X-CSRFToken","Uo94nZdQ9MMLlRWWoqDSpEWd1UHHrRVJ")
+        xhr.send("id="+v)
+        //5.根据状态码获取服务器传递的返回值
+        //6.处理返回值
+        alert(xhr)
+    }
+
+</script>
+
+</body>
+
+</html>
